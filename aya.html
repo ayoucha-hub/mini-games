@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ayoucha games</title>
+</head>
+<body>
+    <h1>مرحباً بك في موقعي!</h1>
+    <p>هذه أول صفحة ويب أقوم بإنشائها باستخدام Bloc-notes.</p>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز الألعاب المصغرة | Mini Games Arcade</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            touch-action: manipulation;
+            user-select: none;
+        }
+        .arcade-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .arcade-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.4); }
+            100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+        }
+        /* Custom styling for memory game card flip */
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-violet-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-pink-500/30">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">
+                    أركيد الألعاب المصغرة
+                </h1>
+            </div>
+            
+            <button id="globalBackBtn" onclick="showHome()" class="hidden bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-2 border border-slate-600 shadow-md hover:shadow-lg">
+                <i class="fa-solid fa-house"></i>
+                <span>القائمة الرئيسية</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto p-4 md:p-6 flex-grow w-full flex flex-col justify-center">
+
+        <!-- Home Screen / Games Selection Grid -->
+        <section id="homeScreen" class="space-y-8 my-auto">
+            <div class="text-center space-y-3 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-black text-white tracking-wide">
+                    اختر لعبتك <span class="text-pink-500">المفضلة</span>
+                </h2>
+                <p class="text-slate-400 text-sm md:text-base">
+                    مجموعة ممتازة من الألعاب التفاعلية السريعة، تحدّ قدراتك وحقق أعلى النقاط!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Game 1 Card -->
+                <div onclick="startGame('catchStars')" class="arcade-card bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 hover:border-amber-500/50 rounded-2xl p-6 cursor-pointer flex flex-col justify-between group shadow-xl hover:shadow-amber-500/10">
+                    <div class="space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🌟
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-amber-400 transition-colors">صيد النجوم</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">تحكم بالسلة واجمع أكبر عدد من النجوم المتساقطة قبل انتهاء الوقت المخصص.</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-700/50">
+                        <span class="text-xs text-amber-400 font-semibold bg-amber-400/10 px-3 py-1 rounded-full">سرعة وتركيز</span>
+                        <span class="text-sm font-bold text-slate-300 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                            العب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Game 2 Card -->
+                <div onclick="startGame('memoryGame')" class="arcade-card bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer flex flex-col justify-between group shadow-xl hover:shadow-purple-500/10">
+                    <div class="space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🧠
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">لعبة الذاكرة</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">اعثر على أزواج البطاقات المتطابقة بأقل عدد من المحاولات وفي أسرع وقت.</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-700/50">
+                        <span class="text-xs text-purple-400 font-semibold bg-purple-400/10 px-3 py-1 rounded-full">تنشيط الذاكرة</span>
+                        <span class="text-sm font-bold text-slate-300 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                            العب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Game 3 Card -->
+                <div onclick="startGame('reactionTest')" class="arcade-card bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 hover:border-emerald-500/50 rounded-2xl p-6 cursor-pointer flex flex-col justify-between group shadow-xl hover:shadow-emerald-500/10">
+                    <div class="space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            ⚡
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">اختبار رد الفعل</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">اختبر سرعة استجابتك البديهية بالميللي ثانية عند تغير لون الشاشة للون الأخضر.</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-700/50">
+                        <span class="text-xs text-emerald-400 font-semibold bg-emerald-400/10 px-3 py-1 rounded-full">دقة واستجابة</span>
+                        <span class="text-sm font-bold text-slate-300 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                            العب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Game 4 Card -->
+                <div onclick="startGame('ticTacToe')" class="arcade-card bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 hover:border-cyan-500/50 rounded-2xl p-6 cursor-pointer flex flex-col justify-between group shadow-xl hover:shadow-cyan-500/10">
+                    <div class="space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            ❌⭕
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">تيك تاك تو</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">اللعبة الكلاسيكية الشهيرة X-O! العب ضد صديقك أو تحَدّ الذكاء الاصطناعي.</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-700/50">
+                        <span class="text-xs text-cyan-400 font-semibold bg-cyan-400/10 px-3 py-1 rounded-full">استراتيجية والتفكير</span>
+                        <span class="text-sm font-bold text-slate-300 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                            العب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Game 5 Card -->
+                <div onclick="startGame('clickerSpeed')" class="arcade-card bg-gradient-to-br from-slate-800 to-slate-800/90 border border-slate-700 hover:border-pink-500/50 rounded-2xl p-6 cursor-pointer flex flex-col justify-between group shadow-xl hover:shadow-pink-500/10 sm:col-span-2 lg:col-span-1">
+                    <div class="space-y-4">
+                        <div class="w-14 h-14 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            👆
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">تحدي النقرات</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">اضغط بأسرع ما لديك خلال 10 ثوانٍ واكتشف عدد النقرات في الثانية الواحدة!</p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between pt-4 border-t border-slate-700/50">
+                        <span class="text-xs text-pink-400 font-semibold bg-pink-400/10 px-3 py-1 rounded-full">حماس وسرعة</span>
+                        <span class="text-sm font-bold text-slate-300 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                            العب الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GAME 1: Catch Stars Screen -->
+        <section id="game-catchStars" class="hidden flex-col items-center justify-center space-y-4 max-w-2xl mx-auto w-full">
+            <div class="w-full flex justify-between items-center bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                <div class="flex items-center gap-2">
+                    <span class="text-amber-400 text-xl font-bold">النتيجة:</span>
+                    <span id="starScore" class="text-2xl font-black text-white">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400 text-xl font-bold">الوقت المتبقي:</span>
+                    <span id="starTimer" class="text-2xl font-black text-pink-500">30s</span>
+                </div>
+                <button onclick="initCatchStars()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-3 py-1.5 rounded-xl text-sm transition">
+                    <i class="fa-solid fa-rotate-right ml-1"></i> إعادة
+                </button>
+            </div>
+
+            <!-- Game Canvas Canvas Container -->
+            <div class="relative w-full aspect-[4/3] bg-gradient-to-b from-slate-950 to-indigo-950 rounded-2xl border-2 border-slate-700 overflow-hidden shadow-2xl touch-none">
+                <canvas id="starsCanvas" class="w-full h-full block"></canvas>
+                <!-- Touch Controls Overlay for Mobile -->
+                <div class="absolute bottom-2 left-0 right-0 flex justify-between px-6 pointer-events-none md:hidden">
+                    <button id="btnLeft" class="pointer-events-auto bg-slate-800/80 active:bg-amber-500 text-white w-14 h-14 rounded-full border border-slate-600 flex items-center justify-center text-xl shadow-lg">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button id="btnRight" class="pointer-events-auto bg-slate-800/80 active:bg-amber-500 text-white w-14 h-14 rounded-full border border-slate-600 flex items-center justify-center text-xl shadow-lg">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 text-center">استخدم الأسهم الأفقية أو اللمس في الهواتف للتحكم بالسلة 🗑️</p>
+        </section>
+
+        <!-- GAME 2: Memory Game Screen -->
+        <section id="game-memoryGame" class="hidden flex-col items-center justify-center space-y-4 max-w-2xl mx-auto w-full">
+            <div class="w-full flex justify-between items-center bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                <div class="flex items-center gap-2">
+                    <span class="text-purple-400 font-bold">المحاولات:</span>
+                    <span id="memoryMoves" class="text-2xl font-black text-white">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-purple-400 font-bold">الأزواج:</span>
+                    <span id="memoryPairs" class="text-2xl font-black text-white">0 / 6</span>
+                </div>
+                <button onclick="initMemoryGame()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-3 py-1.5 rounded-xl text-sm transition">
+                    <i class="fa-solid fa-rotate-right ml-1"></i> إعادة
+                </button>
+            </div>
+
+            <!-- Memory Grid Container -->
+            <div id="memoryGrid" class="grid grid-cols-4 gap-3 w-full aspect-square max-w-md p-2 bg-slate-950/60 rounded-2xl border border-slate-800">
+                <!-- Cards generated via JS -->
+            </div>
+        </section>
+
+        <!-- GAME 3: Reaction Test Screen -->
+        <section id="game-reactionTest" class="hidden flex-col items-center justify-center space-y-4 max-w-2xl mx-auto w-full">
+            <div id="reactionBox" onclick="handleReactionClick()" class="w-full h-80 rounded-3xl bg-red-600 border-4 border-red-400/30 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl">
+                <i id="reactionIcon" class="fa-solid fa-hand-pointer text-6xl mb-4 animate-bounce"></i>
+                <h3 id="reactionTitle" class="text-3xl font-black mb-2">انتظر اللون الأخضر...</h3>
+                <p id="reactionDesc" class="text-sm opacity-90">انقر هنا بمجرد تغير لون الشاشة فوراً!</p>
+            </div>
+            
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 w-full flex justify-around items-center text-center">
+                <div>
+                    <span class="block text-xs text-slate-400">آخر محاولة</span>
+                    <span id="lastReaction" class="text-xl font-bold text-emerald-400">-- ms</span>
+                </div>
+                <div class="border-r border-slate-700 h-8"></div>
+                <div>
+                    <span class="block text-xs text-slate-400">أفضل نتيجة</span>
+                    <span id="bestReaction" class="text-xl font-bold text-amber-400">-- ms</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 4: Tic Tac Toe Screen -->
+        <section id="game-ticTacToe" class="hidden flex-col items-center justify-center space-y-4 max-w-md mx-auto w-full">
+            <!-- Mode Selector -->
+            <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 w-full">
+                <button id="modeAiBtn" onclick="setTicTacToeMode('ai')" class="flex-1 py-2 rounded-lg font-bold text-sm bg-cyan-600 text-white transition">
+                    ضد الذكاء الاصطناعي 🤖
+                </button>
+                <button id="modeP2Btn" onclick="setTicTacToeMode('p2')" class="flex-1 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition">
+                    لاعبين (2P) 👥
+                </button>
+            </div>
+
+            <!-- Status Indicator -->
+            <div class="w-full bg-slate-800/80 p-3 rounded-xl border border-slate-700 text-center font-bold text-cyan-400" id="tttStatus">
+                دور اللاعب (X)
+            </div>
+
+            <!-- TTT Board -->
+            <div id="tttBoard" class="grid grid-cols-3 gap-3 w-full aspect-square bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                <!-- 9 Cells generated via JS -->
+            </div>
+
+            <button onclick="initTicTacToe()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-rotate-right"></i> مباراة جديدة
+            </button>
+        </section>
+
+        <!-- GAME 5: Clicker Speed Test Screen -->
+        <section id="game-clickerSpeed" class="hidden flex-col items-center justify-center space-y-4 max-w-md mx-auto w-full">
+            <div class="w-full flex justify-between items-center bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                <div class="text-center">
+                    <span class="block text-xs text-slate-400">عدد النقرات</span>
+                    <span id="clickerCount" class="text-3xl font-black text-pink-500">0</span>
+                </div>
+                <div class="text-center">
+                    <span class="block text-xs text-slate-400">الوقت المتبقي</span>
+                    <span id="clickerTimer" class="text-3xl font-black text-amber-400">10s</span>
+                </div>
+            </div>
+
+            <!-- Big Click Area -->
+            <button id="clickerBtn" onclick="handleClickerPress()" class="w-full aspect-square bg-gradient-to-tr from-pink-600 to-rose-500 active:scale-95 transition-transform rounded-3xl border-4 border-pink-400/30 flex flex-col items-center justify-center shadow-2xl cursor-pointer">
+                <i class="fa-solid fa-hand-pointer text-6xl mb-3 text-white"></i>
+                <span id="clickerBtnText" class="text-2xl font-black text-white">انقر هنا للبدء!</span>
+            </button>
+
+            <button onclick="resetClicker()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl border border-slate-700 transition">
+                إعادة المحاولة
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500">
+        <p>جميع الحقوق محفوظة &copy; 2026 - مركز الألعاب المصغرة Mini Games Arcade</p>
+    </footer>
+
+    <script>
+        // Global Navigation & State Management
+        let currentGame = null;
+
+        function showHome() {
+            // Hide all game screens
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.remove('flex'));
+            
+            // Show home screen
+            const homeScreen = document.getElementById('homeScreen');
+            homeScreen.classList.remove('hidden');
+            
+            // Hide back button in header
+            document.getElementById('globalBackBtn').classList.add('hidden');
+
+            // Clear active loops/intervals
+            stopCatchStars();
+            clearTimeout(reactionTimeout);
+            clearInterval(clickerInterval);
+        }
+
+        function startGame(gameId) {
+            // Hide Home
+            document.getElementById('homeScreen').classList.add('hidden');
+            
+            // Show Header Back Button
+            document.getElementById('globalBackBtn').classList.remove('hidden');
+
+            // Show selected game section
+            const gameSection = document.getElementById(`game-${gameId}`);
+            if (gameSection) {
+                gameSection.classList.remove('hidden');
+                gameSection.classList.add('flex');
+            }
+
+            currentGame = gameId;
+
+            // Initialize selected game logic
+            switch (gameId) {
+                case 'catchStars':
+                    initCatchStars();
+                    break;
+                case 'memoryGame':
+                    initMemoryGame();
+                    break;
+                case 'reactionTest':
+                    initReactionTest();
+                    break;
+                case 'ticTacToe':
+                    initTicTacToe();
+                    break;
+                case 'clickerSpeed':
+                    resetClicker();
+                    break;
+            }
+        }
+
+        /* ========================================================
+           GAME 1: CATCH STARS LOGIC (صيد النجوم)
+           ======================================================== */
+        let starsCanvas = document.getElementById('starsCanvas');
+        let ctx = starsCanvas.getContext('2d');
+        let starScore = 0;
+        let starTimeLeft = 30;
+        let starGameLoop = null;
+        let starTimerLoop = null;
+        let basket = { x: 0, width: 70, height: 18, speed: 7 };
+        let stars = [];
+        let keys = { left: false, right: false };
+
+        function initCatchStars() {
+            stopCatchStars();
+            
+            // Setup canvas dimensions dynamically
+            const container = starsCanvas.parentElement;
+            starsCanvas.width = container.clientWidth;
+            starsCanvas.height = container.clientHeight;
+
+            starScore = 0;
+            starTimeLeft = 30;
+            stars = [];
+            basket.x = (starsCanvas.width - basket.width) / 2;
+
+            document.getElementById('starScore').textContent = starScore;
+            document.getElementById('starTimer').textContent = `${starTimeLeft}s`;
+
+            // Setup Listeners for touch & keys
+            window.onkeydown = (e) => {
+                if (e.key === 'ArrowLeft') keys.left = true;
+                if (e.key === 'ArrowRight') keys.right = true;
+            };
+            window.onkeyup = (e) => {
+                if (e.key === 'ArrowLeft') keys.left = false;
+                if (e.key === 'ArrowRight') keys.right = false;
+            };
+
+            const btnLeft = document.getElementById('btnLeft');
+            const btnRight = document.getElementById('btnRight');
+            btnLeft.ontouchstart = (e) => { e.preventDefault(); keys.left = true; };
+            btnLeft.ontouchend = (e) => { e.preventDefault(); keys.left = false; };
+            btnRight.ontouchstart = (e) => { e.preventDefault(); keys.right = true; };
+            btnRight.ontouchend = (e) => { e.preventDefault(); keys.right = false; };
+
+            // Game loops
+            starGameLoop = requestAnimationFrame(updateStarsGame);
+            starTimerLoop = setInterval(() => {
+                starTimeLeft--;
+                document.getElementById('starTimer').textContent = `${starTimeLeft}s`;
+                if (starTimeLeft <= 0) {
+                    stopCatchStars();
+                    alert(`انتهى الوقت! النتيجة النهائية: ${starScore} نجمة ⭐`);
+                }
+            }, 1000);
+        }
+
+        function stopCatchStars() {
+            if (starGameLoop) cancelAnimationFrame(starGameLoop);
+            if (starTimerLoop) clearInterval(starTimerLoop);
+        }
+
+        function updateStarsGame() {
+            ctx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+
+            // Move Basket
+            if (keys.left && basket.x > 0) basket.x -= basket.speed;
+            if (keys.right && basket.x < starsCanvas.width - basket.width) basket.x += basket.speed;
+
+            // Draw Basket
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.roundRect(basket.x, starsCanvas.height - 30, basket.width, basket.height, 8);
+            ctx.fill();
+
+            // Spawn Stars randomly
+            if (Math.random() < 0.04) {
+                stars.push({
+                    x: Math.random() * (starsCanvas.width - 20),
+                    y: 0,
+                    speed: 2 + Math.random() * 3,
+                    size: 18
+                });
+            }
+
+            // Update & Draw Stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                let s = stars[i];
+                s.y += s.speed;
+
+                // Draw Star Emoji
+                ctx.font = `${s.size}px sans-serif`;
+                ctx.fillText('⭐', s.x, s.y);
+
+                // Collision Detection with basket
+                if (
+                    s.y >= starsCanvas.height - 35 &&
+                    s.y <= starsCanvas.height - 10 &&
+                    s.x + s.size >= basket.x &&
+                    s.x <= basket.x + basket.width
+                ) {
+                    starScore += 10;
+                    document.getElementById('starScore').textContent = starScore;
+                    stars.splice(i, 1);
+                    continue;
+                }
+
+                // Remove star if passed canvas
+                if (s.y > starsCanvas.height) {
+                    stars.splice(i, 1);
+                }
+            }
+
+            starGameLoop = requestAnimationFrame(updateStarsGame);
+        }
+
+        /* ========================================================
+           GAME 2: MEMORY GAME LOGIC (لعبة الذاكرة)
+           ======================================================== */
+        const emojis = ['🚀', '👾', '🎮', '🧩', '🎨', '🎯'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let memoryMoves = 0;
+        let matchedPairs = 0;
+
+        function initMemoryGame() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryMoves = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+            document.getElementById('memoryMoves').textContent = '0';
+            document.getElementById('memoryPairs').textContent = '0 / 6';
+
+            // Duplicate & shuffle emojis
+            const deck = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+            deck.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'flip-card perspective cursor-pointer w-full h-full';
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+
+                card.innerHTML = `
+                    <div class="flip-card-inner relative w-full h-full rounded-xl shadow-md text-center">
+                        <div class="flip-card-front absolute w-full h-full bg-slate-800 border border-slate-700 rounded-xl flex items-center justify-center text-2xl text-purple-400 font-bold">
+                            ?
+                        </div>
+                        <div class="flip-card-back absolute w-full h-full bg-purple-600 rounded-xl flex items-center justify-center text-3xl">
+                            ${emoji}
+                        </div>
+                    </div>
+                `;
+
+                card.onclick = () => handleCardClick(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function handleCardClick(card) {
+            if (flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                document.getElementById('memoryMoves').textContent = memoryMoves;
+
+                const [card1, card2] = flippedCards;
+                if (card1.dataset.emoji === card2.dataset.emoji) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    matchedPairs++;
+                    document.getElementById('memoryPairs').textContent = `${matchedPairs} / 6`;
+                    flippedCards = [];
+
+                    if (matchedPairs === 6) {
+                        setTimeout(() => alert(`رائع! أتممت لعبة الذاكرة بـ ${memoryMoves} محاولة 🎉`), 300);
+                    }
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        flippedCards = [];
+                    }, 900);
+                }
+            }
+        }
+
+        /* ========================================================
+           GAME 3: REACTION SPEED TEST LOGIC (اختبار رد الفعل)
+           ======================================================== */
+        let reactionState = 'idle'; // 'waiting', 'ready', 'finished'
+        let reactionStartTime = 0;
+        let reactionTimeout = null;
+        let bestReactionTime = null;
+
+        function initReactionTest() {
+            clearTimeout(reactionTimeout);
+            const box = document.getElementById('reactionBox');
+            box.className = "w-full h-80 rounded-3xl bg-red-600 border-4 border-red-400/30 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl";
+            document.getElementById('reactionTitle').textContent = "اضغط للبدء";
+            document.getElementById('reactionDesc').textContent = "عند الضغط، انتظر تحول الشاشة للون الأخضر ثم اضغط بأسرع ما لديك!";
+            document.getElementById('reactionIcon').className = "fa-solid fa-play text-6xl mb-4";
+            reactionState = 'idle';
+        }
+
+        function handleReactionClick() {
+            const box = document.getElementById('reactionBox');
+            const title = document.getElementById('reactionTitle');
+            const desc = document.getElementById('reactionDesc');
+            const icon = document.getElementById('reactionIcon');
+
+            if (reactionState === 'idle' || reactionState === 'finished') {
+                reactionState = 'waiting';
+                box.className = "w-full h-80 rounded-3xl bg-red-600 border-4 border-red-400/30 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl";
+                title.textContent = "انتظر اللون الأخضر...";
+                desc.textContent = "لا تضغط الآن حتى تتحول الشاشة للخضراء!";
+                icon.className = "fa-solid fa-hourglass-half text-6xl mb-4 animate-spin";
+
+                const randomDelay = Math.floor(Math.random() * 3000) + 2000; // 2-5s
+                reactionTimeout = setTimeout(() => {
+                    reactionState = 'ready';
+                    reactionStartTime = Date.now();
+                    box.className = "w-full h-80 rounded-3xl bg-emerald-500 border-4 border-emerald-300/30 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl pulse-glow";
+                    title.textContent = "اضغط الآن بسرعة!!!";
+                    desc.textContent = "انقر بأسرع ما يمكن!";
+                    icon.className = "fa-solid fa-bolt text-6xl mb-4 animate-bounce";
+                }, randomDelay);
+
+            } else if (reactionState === 'waiting') {
+                clearTimeout(reactionTimeout);
+                reactionState = 'finished';
+                box.className = "w-full h-80 rounded-3xl bg-amber-600 border-4 border-amber-400/30 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl";
+                title.textContent = "تسرعت كثيراً! ❌";
+                desc.textContent = "لقد نقرت قبل تحول الشاشة للون الأخضر. انقر لإعادة المحاولة.";
+                icon.className = "fa-solid fa-triangle-exclamation text-6xl mb-4";
+
+            } else if (reactionState === 'ready') {
+                const reactionTime = Date.now() - reactionStartTime;
+                reactionState = 'finished';
+
+                document.getElementById('lastReaction').textContent = `${reactionTime} ms`;
+                if (!bestReactionTime || reactionTime < bestReactionTime) {
+                    bestReactionTime = reactionTime;
+                    document.getElementById('bestReaction').textContent = `${bestReactionTime} ms`;
+                }
+
+                box.className = "w-full h-80 rounded-3xl bg-slate-800 border-4 border-emerald-500 flex flex-col items-center justify-center text-center p-6 cursor-pointer select-none transition-colors shadow-2xl";
+                title.textContent = `${reactionTime} ملّي ثانية`;
+                desc.textContent = "استجابة ممتازة! انقر للمحاولة مرة أخرى.";
+                icon.className = "fa-solid fa-stopwatch text-6xl mb-4 text-emerald-400";
+            }
+        }
+
+        /* ========================================================
+           GAME 4: TIC-TAC-TOE LOGIC (تيك تاك تو)
+           ======================================================== */
+        let tttBoardState = ['', '', '', '', '', '', '', '', ''];
+        let tttCurrentPlayer = 'X';
+        let tttMode = 'ai'; // 'ai' or 'p2'
+        let tttIsActive = true;
+
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function setTicTacToeMode(mode) {
+            tttMode = mode;
+            document.getElementById('modeAiBtn').className = mode === 'ai' 
+                ? "flex-1 py-2 rounded-lg font-bold text-sm bg-cyan-600 text-white transition" 
+                : "flex-1 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition";
+            document.getElementById('modeP2Btn').className = mode === 'p2' 
+                ? "flex-1 py-2 rounded-lg font-bold text-sm bg-cyan-600 text-white transition" 
+                : "flex-1 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition";
+            initTicTacToe();
+        }
+
+        function initTicTacToe() {
+            tttBoardState = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = 'X';
+            tttIsActive = true;
+            document.getElementById('tttStatus').textContent = "دور اللاعب (X)";
+
+            const board = document.getElementById('tttBoard');
+            board.innerHTML = '';
+
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('button');
+                cell.className = "bg-slate-900 border border-slate-800 rounded-xl text-4xl font-black flex items-center justify-center hover:bg-slate-800 transition active:scale-95";
+                cell.dataset.index = i;
+                cell.onclick = () => handleTTTCellClick(i);
+                board.appendChild(cell);
+            }
+        }
+
+        function handleTTTCellClick(index) {
+            if (tttBoardState[index] !== '' || !tttIsActive) return;
+
+            makeTTTMove(index, tttCurrentPlayer);
+
+            if (checkTTTWinner(tttCurrentPlayer)) {
+                document.getElementById('tttStatus').textContent = `الفائز هو اللاعب (${tttCurrentPlayer})! 🎉`;
+                tttIsActive = false;
+                return;
+            }
+
+            if (tttBoardState.every(cell => cell !== '')) {
+                document.getElementById('tttStatus').textContent = "تعادل! 🤝";
+                tttIsActive = false;
+                return;
+            }
+
+            tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('tttStatus').textContent = `دور اللاعب (${tttCurrentPlayer})`;
+
+            // If AI Turn
+            if (tttMode === 'ai' && tttCurrentPlayer === 'O' && tttIsActive) {
+                setTimeout(makeAIMove, 400);
+            }
+        }
+
+        function makeTTTMove(index, player) {
+            tttBoardState[index] = player;
+            const cells = document.getElementById('tttBoard').children;
+            cells[index].textContent = player;
+            cells[index].classList.add(player === 'X' ? 'text-pink-500' : 'text-cyan-400');
+        }
+
+        function makeAIMove() {
+            let emptyIndices = tttBoardState
+                .map((val, idx) => val === '' ? idx : null)
+                .filter(val => val !== null);
+
+            if (emptyIndices.length > 0 && tttIsActive) {
+                let randomChoice = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+                handleTTTCellClick(randomChoice);
+            }
+        }
+
+        function checkTTTWinner(player) {
+            return winPatterns.some(pattern => {
+                return pattern.every(index => tttBoardState[index] === player);
+            });
+        }
+
+        /* ========================================================
+           GAME 5: CLICKER SPEED TEST LOGIC (تحدي النقرات)
+           ======================================================== */
+        let clickerClicks = 0;
+        let clickerTimeLeft = 10;
+        let clickerActive = false;
+        let clickerInterval = null;
+
+        function resetClicker() {
+            clearInterval(clickerInterval);
+            clickerClicks = 0;
+            clickerTimeLeft = 10;
+            clickerActive = false;
+
+            document.getElementById('clickerCount').textContent = '0';
+            document.getElementById('clickerTimer').textContent = '10s';
+            document.getElementById('clickerBtnText').textContent = 'انقر هنا للبدء!';
+        }
+
+        function handleClickerPress() {
+            if (!clickerActive && clickerTimeLeft === 10) {
+                clickerActive = true;
+                clickerInterval = setInterval(() => {
+                    clickerTimeLeft--;
+                    document.getElementById('clickerTimer').textContent = `${clickerTimeLeft}s`;
+
+                    if (clickerTimeLeft <= 0) {
+                        clearInterval(clickerInterval);
+                        clickerActive = false;
+                        const cps = (clickerClicks / 10).toFixed(1);
+                        document.getElementById('clickerBtnText').textContent = 'انتهى التحدي!';
+                        alert(`انتهى التحدي! 🎉\nعدد النقرات الإجمالي: ${clickerClicks}\nمعدل السرعة: ${cps} نقرة/ثانية`);
+                    }
+                }, 1000);
+            }
+
+            if (clickerActive) {
+                clickerClicks++;
+                document.getElementById('clickerCount').textContent = clickerClicks;
+                document.getElementById('clickerBtnText').textContent = 'واصل النقار السريع!';
+            }
+        }
+    </script>
+</body>
+</html>
